@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Header from './Header';
 import Location from './Location';
+import ShowTime from './ShowTime';
 
 const apiKey = process.env.GEOCODE_API_KEY;
 
@@ -69,16 +70,17 @@ export default class SiderealApp extends React.Component {
     return (
       <div>
         <Header />
+        <Location
+          handleGetLocation={this.handleGetLocation}
+          buttonText={this.state.address ? "Change" : "Choose"}
+        />
         <div>
-          <Location
-            handleGetLocation={this.handleGetLocation}
-            buttonText={this.state.address ? "Change" : "Choose"}
-          />
           {this.state.address && <h3>Location: {this.state.address}</h3>}
           {this.state.latitude && <h3>Latitude: {this.state.latitude}</h3>}
           {this.state.longitude && <h3>Longitude: {this.state.longitude}</h3>}
           {this.state.error && <h3>Error: {this.state.error}</h3>}
         </div>
+        <ShowTime />
       </div>
     );
   };

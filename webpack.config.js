@@ -4,6 +4,7 @@ const webpack = require('webpack');
 require('dotenv').config({ path: '.env.development' });
 
 module.exports = {
+  mode: 'development',
   entry: './src/app.js',
   output: {
     path: path.join(__dirname, 'dist'),
