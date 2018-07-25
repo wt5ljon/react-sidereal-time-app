@@ -1,41 +1,81 @@
 import React from 'react';
 import axios from 'axios';
+import moment from 'moment';
 import Header from './Header';
 import Location from './Location';
+import ShowLocation from './ShowLocation';
 import ShowTime from './ShowTime';
 
 const apiKey = process.env.GEOCODE_API_KEY;
 
 export default class SiderealApp extends React.Component {
   state = {
-    address: undefined,
-    latitude: undefined,
-    longitude: undefined,
+    location: {
+      address: undefined,
+      latitude: undefined,
+      longitude: undefined,
+      timezone: undefined,
+      rawOffset: undefined,
+      dstOffset: undefined  
+    },
     error: undefined
   };
 
   handleGetLocation = (location) => {
-    axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${apiKey}`)
+    const geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${apiKey}`;
+    axios.get(geocodeURL)
       .then((response) => {
         if (response.data.status === 'ZERO_RESULTS') {
           throw ('Address not found');
         } else {
           this.setState(() => {
             return {
-              address: response.data.results[0].formatted_address,
-              latitude: response.data.results[0].geometry.location.lat,
-              longitude: response.data.results[0].geometry.location.lng,
+              location: {
+                address: response.data.results[0].formatted_address,
+                latitude: response.data.results[0].geometry.location.lat,
+                longitude: response.data.results[0].geometry.location.lng,
+                timezone: undefined,
+                rawOffset: undefined,
+                dstOffset: undefined 
+              },
               error: undefined
             };
           });
+          const lat = response.data.results[0].geometry.location.lat;
+          const lng = response.data.results[0].geometry.location.lng;
+          const timestamp = moment().unix().valueOf();
+          const timezoneURL = `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=${timestamp}&key=${apiKey}`;
+          return axios.get(timezoneURL);
         }
+      })
+      .then((response) => {
+        this.setState((prevState) => {
+          return {
+            location: {
+              address: prevState.location.address,
+              latitude: prevState.location.latitude,
+              longitude: prevState.location.longitude,
+              timezone: response.data.timeZoneName,
+              rawOffset: response.data.rawOffset,
+              dstOffset: response.data.dstOffset  
+            },
+            error: undefined
+          };
+          //console.log(response.data.timeZoneName);
+          //console.log(moment().utc().add(response.data.rawOffset, 's').add(response.data.dstOffset, 's').format("HH:mm:ss"));
+        });
       })
       .catch((error) => {
         this.setState(() => {
           return {
-            address: undefined,
-            latitude: undefined,
-            longitude: undefined,
+            location: {
+              address: undefined,
+              latitude: undefined,
+              longitude: undefined,
+              timezone: undefined,
+              rawOffset: undefined,
+              dstOffset: undefined
+            },
             error
           };
         });
@@ -45,13 +85,11 @@ export default class SiderealApp extends React.Component {
   componentDidMount() {
     const json = localStorage.getItem('location');
     const location = JSON.parse(json);
-
+    
     if (location) {
       this.setState(() => {
         return ({
-          address: location.address,
-          latitude: location.latitude,
-          longitude: location.longitude
+          location: location.location 
         });
       });
     }
@@ -59,9 +97,7 @@ export default class SiderealApp extends React.Component {
 
   componentDidUpdate() {
     const json = JSON.stringify({
-      address: this.state.address,
-      latitude: this.state.latitude,
-      longitude: this.state.longitude
+      location: this.state.location 
     });
     localStorage.setItem('location', json);
   }
@@ -72,15 +108,10 @@ export default class SiderealApp extends React.Component {
         <Header />
         <Location
           handleGetLocation={this.handleGetLocation}
-          buttonText={this.state.address ? "Change" : "Choose"}
+          buttonText={this.state.location.address ? "Change" : "Choose"}
         />
-        <div>
-          {this.state.address && <h3>Location: {this.state.address}</h3>}
-          {this.state.latitude && <h3>Latitude: {this.state.latitude}</h3>}
-          {this.state.longitude && <h3>Longitude: {this.state.longitude}</h3>}
-          {this.state.error && <h3>Error: {this.state.error}</h3>}
-        </div>
-        <ShowTime />
+        <ShowLocation location={this.state.location} />
+        <ShowTime location={this.state.location} />
       </div>
     );
   };

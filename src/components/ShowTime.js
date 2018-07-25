@@ -4,7 +4,7 @@ import { calcJD } from './../utilities/astro';
 
 export default class ShowTime extends React.Component {
   state = {
-    now: moment().local(),
+    nowLocal: moment().utc(),
     nowUTC: moment().utc()
   };
 
@@ -21,20 +21,23 @@ export default class ShowTime extends React.Component {
   tick() {
     this.setState(() => {
       return {
-        now: moment().local(),
+        nowLocal: moment().utc(),
         nowUTC: moment().utc()
       }
     })
   };
 
   render() {
+    // convert nowLocal from UTC to local time using time zone offset and dst offset
+    this.state.nowLocal.add(this.props.location.rawOffset, 's').add(this.props.location.dstOffset, 's');
+
     return (
       <div>
-        <h3>Local Date: {this.state.now.format("ddd, MMM D, YYYY")}</h3>
-        <h3>Local Time: {this.state.now.format("HH:mm:ss")}</h3>
+        <h3>Local Date: {this.state.nowLocal.format("ddd, MMM D, YYYY")}</h3>
+        <h3>Local Time: {this.state.nowLocal.format("HH:mm:ss")}</h3>
         <h3>UTC Date: {this.state.nowUTC.format("ddd, MMM D, YYYY")}</h3>
         <h3>UTC Time: {this.state.nowUTC.format("HH:mm:ss")}</h3>
-        <h3>Julian Date: {calcJD(this.state.nowUTC, false)}</h3>
+        <h3>Julian Date: {calcJD(this.state.nowUTC).toFixed(5)}</h3>
       </div>
     );
   };

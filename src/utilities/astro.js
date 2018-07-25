@@ -1,4 +1,4 @@
-export const calcJD = (now, t_zero) => {
+export const calcJD = (now, t_zero = false ) => {
   const current = {
     year: now.get('year'),
     month: now.get('month') + 1,

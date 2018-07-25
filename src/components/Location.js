@@ -4,7 +4,8 @@ const Location = (props) => {
   const handleSearchLocation = (e) => {
     e.preventDefault();
     const location = e.target.elements.location.value.trim();
-    props.handleGetLocation(location);
+    const encodedLocation = encodeURIComponent(location);
+    props.handleGetLocation(encodedLocation);
     e.target.elements.location.value = '';
   }
   const buttonText = props.buttonText;
