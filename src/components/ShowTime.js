@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { calcJD } from './../utilities/astro';
+import { calcJD, calcLST, parseTime } from './../utilities/astro';
 
 export default class ShowTime extends React.Component {
   state = {
@@ -38,6 +38,7 @@ export default class ShowTime extends React.Component {
         <h3>UTC Date: {this.state.nowUTC.format("ddd, MMM D, YYYY")}</h3>
         <h3>UTC Time: {this.state.nowUTC.format("HH:mm:ss")}</h3>
         <h3>Julian Date: {calcJD(this.state.nowUTC).toFixed(5)}</h3>
+        <h3>Local Sidereal Time: {parseTime(calcLST(this.state.nowUTC, this.props.location.longitude))}</h3>
       </div>
     );
   };

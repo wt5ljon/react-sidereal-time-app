@@ -10,14 +10,7 @@ const apiKey = process.env.GEOCODE_API_KEY;
 
 export default class SiderealApp extends React.Component {
   state = {
-    location: {
-      address: undefined,
-      latitude: undefined,
-      longitude: undefined,
-      timezone: undefined,
-      rawOffset: undefined,
-      dstOffset: undefined  
-    },
+    location: undefined,
     error: undefined
   };
 
@@ -33,10 +26,7 @@ export default class SiderealApp extends React.Component {
               location: {
                 address: response.data.results[0].formatted_address,
                 latitude: response.data.results[0].geometry.location.lat,
-                longitude: response.data.results[0].geometry.location.lng,
-                timezone: undefined,
-                rawOffset: undefined,
-                dstOffset: undefined 
+                longitude: response.data.results[0].geometry.location.lng
               },
               error: undefined
             };
@@ -61,35 +51,26 @@ export default class SiderealApp extends React.Component {
             },
             error: undefined
           };
-          //console.log(response.data.timeZoneName);
-          //console.log(moment().utc().add(response.data.rawOffset, 's').add(response.data.dstOffset, 's').format("HH:mm:ss"));
         });
       })
       .catch((error) => {
         this.setState(() => {
           return {
-            location: {
-              address: undefined,
-              latitude: undefined,
-              longitude: undefined,
-              timezone: undefined,
-              rawOffset: undefined,
-              dstOffset: undefined
-            },
+            location: undefined,
             error
           };
         });
       })
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const json = localStorage.getItem('location');
-    const location = JSON.parse(json);
+    const data = JSON.parse(json);
     
-    if (location) {
+    if (data) {
       this.setState(() => {
         return ({
-          location: location.location 
+          location: data.location 
         });
       });
     }
@@ -104,7 +85,7 @@ export default class SiderealApp extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <Header />
         <Location
           handleGetLocation={this.handleGetLocation}
