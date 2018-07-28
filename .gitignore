@@ -1,9 +1,6 @@
 node_modules/
 .vscode/
 dist/images/Thumbs.db
-dist/bundle.js
-dist/bundle.js.map
-dist/styles.css
-dist/styles.css.map
+dist/dist/
 
 .env.development
