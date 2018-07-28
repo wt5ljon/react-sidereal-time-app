@@ -66,9 +66,23 @@ export const calcLST = (now, longitude) => {
 
 export const parseTime = (num) => {
   let totalSeconds = Math.floor(num * 3600);
-  const hour = Math.floor(totalSeconds / 3600);
+  const hour = Math.floor(num);
   totalSeconds -= hour * 3600;
   const minute = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds - minute * 60; 
   return ('0' + hour).slice(-2) + ':' + ('0' + minute).slice(-2) + ':' + ('0' + seconds).slice(-2);
-}
+};
+
+export const parseDegree = (num, posHemi, negHemi) => {
+  const absNum = Math.abs(num);
+  const degree = Math.floor(absNum);
+  let totalSeconds = absNum * 3600;
+  totalSeconds -= degree * 3600;
+  const minute = Math.floor(totalSeconds / 60);
+  const seconds = Math.round(totalSeconds - (minute * 60));
+  const hemisphere = Math.sign(num) === -1 ? negHemi : posHemi;
+  let textDegree = degree > 99 ? ('0' + degree).slice(-3) : ('0' + degree).slice(-2);
+  textDegree = degree < 10 ? ('0' + degree).slice(-1) : textDegree;
+  
+  return `${textDegree}\xB0 ${('0' + minute).slice(-2)}'  ${('0' + seconds).slice(-2)}" ${hemisphere}`;
+};

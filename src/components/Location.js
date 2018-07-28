@@ -10,11 +10,14 @@ const Location = (props) => {
   }
   const buttonText = props.buttonText;
   return (
-    <div>
-      <form onSubmit={handleSearchLocation}>
-        <input type="text" name="location" placeholder="zipcode, city, address" />
-        <button>{buttonText} Location</button>
+    <div className="block">
+      <form className="location__form" onSubmit={handleSearchLocation}>
+        <input className="location__input" type="text" name="location" placeholder="Enter a Zipcode, a City or an Address" />
+        <button className="location__button">{buttonText} Location</button>
       </form>
+      <div className="error__block">
+        {props.error && <h3>Error: {props.error}</h3>}
+      </div>
     </div>
   );
 };

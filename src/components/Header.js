@@ -1,9 +1,11 @@
 import React from 'react';
 
 const Header = (props) => (
-  <div>
-    <h1>WT5L Sidereal Time Calculator</h1>
-    {props.subtitle && <h3>{props.subtitle}</h3>}
+  <div className="header">
+    <div className="container">
+      <h1 className="header__title">Worldwide Julian Date and Sidereal Time</h1>
+      {props.subtitle && <h2 className="header__subtitle">{props.subtitle}</h2>}
+    </div>
   </div>
 );
 
