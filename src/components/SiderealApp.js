@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import pkg from '../../package.json';
+import Footer from './Footer';
 import Header from './Header';
 import Location from './Location';
 import ShowLocation from './ShowLocation';
@@ -99,7 +101,7 @@ export default class SiderealApp extends React.Component {
   render() {
     return (
       <div>
-        <Header subtitle="Displays current local time, Julian date and sidereal time for any location in the world"/ >
+        <Header subtitle="Displays current local and universal time, Julian date and sidereal time for any location in the world"/ >
         <div className="container">
           <Location
             error={this.state.error}
@@ -108,7 +110,8 @@ export default class SiderealApp extends React.Component {
           />
           <ShowLocation location={this.state.location} />
           <ShowTime location={this.state.location} />
-        </div>
+          <Footer year={moment().format('YYYY')} version={pkg.version} /> 
+        </div>     
       </div>
     );
   };

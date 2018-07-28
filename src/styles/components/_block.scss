@@ -16,6 +16,12 @@
         color: darken($blackboard, 15%);
         margin: 0;
     }
+    .footer__text {
+        color: darken(white, 10%);
+        margin: 0;
+        font-size: $s-size;
+        font-weight: 700;
+    }
 }
 
 .row__data--last {
