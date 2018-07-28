@@ -12,7 +12,12 @@ const Location = (props) => {
   return (
     <div className="block">
       <form className="location__form" onSubmit={handleSearchLocation}>
-        <input className="location__input" type="text" name="location" placeholder="Enter a Zipcode, a City or an Address" />
+        <input 
+          className="location__input" 
+          type="text" name="location" 
+          autocomplete="off" 
+          placeholder="Enter a Zipcode, a City or an Address" 
+        />
         <button className="location__button">{buttonText} Location</button>
       </form>
       <div className="error__block">
