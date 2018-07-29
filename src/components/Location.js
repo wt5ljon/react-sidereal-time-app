@@ -15,8 +15,9 @@ const Location = (props) => {
         <input 
           className="location__input" 
           type="text" name="location" 
-          autocomplete="off" 
-          placeholder="Enter a Zipcode, a City or an Address" 
+          autoComplete="off" 
+          placeholder="Enter a Zipcode, a City or an Address"
+          onChange={props.onInputChange} 
         />
         <button className="location__button">{buttonText} Location</button>
       </form>
