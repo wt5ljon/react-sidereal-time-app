@@ -17,7 +17,7 @@ const Location = (props) => {
           type="text" name="location" 
           autoComplete="off" 
           placeholder="Enter a Zipcode, a City or an Address"
-          onChange={props.onInputChange} 
+          onFocus={props.onInputChange} 
         />
         <button className="location__button">{buttonText} Location</button>
       </form>
