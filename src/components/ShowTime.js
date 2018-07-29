@@ -61,7 +61,7 @@ export default class ShowTime extends React.Component {
               <h3>{numeral(calcJD(this.state.nowUTC)).format('0,0.00000')}</h3>
             </span>
             <span className="row__data row__data--last">
-              <h3>Sidereal Time</h3>
+              <h3>Local Sidereal Time</h3>
               <h3>{this.props.location.address && parseTime(calcLST(this.state.nowUTC, this.props.location.longitude))}</h3>
             </span>
           </div>
