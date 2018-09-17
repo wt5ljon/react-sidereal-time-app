@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import numeral from 'numeral';
 import { calcJD, calcLST, parseTime } from './../utilities/astro';
+import ShowDials from './ShowDials';
 
 export default class ShowTime extends React.Component {
   state = {
@@ -31,6 +32,9 @@ export default class ShowTime extends React.Component {
   render() {
     // convert nowLocal from UTC to local time using time zone offset and dst offset
     this.state.nowLocal.add(this.props.location.rawOffset, 's').add(this.props.location.dstOffset, 's');
+
+    const lst = parseTime(calcLST(this.state.nowUTC, this.props.location.longitude));
+    const lstParsed = lst.split(':');
 
     return (
       <div>
@@ -62,9 +66,18 @@ export default class ShowTime extends React.Component {
             </span>
             <span className="row__data row__data--last">
               <h3>Local Sidereal Time</h3>
-              <h3>{this.props.location.address && parseTime(calcLST(this.state.nowUTC, this.props.location.longitude))}</h3>
+              <h3>{this.props.location.address && lst}</h3>
             </span>
           </div>
+        </div>
+        <div className="block">
+          <ShowDials 
+            localHour={this.state.nowLocal.hour()} 
+            localMinute={this.state.nowLocal.minute()} 
+            lstHour={lstParsed[0]}
+            lstMinute={lstParsed[1]}
+            show={this.props.location.address}
+          />
         </div>
       </div>
     );
