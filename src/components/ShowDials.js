@@ -9,8 +9,8 @@ export default class ShowDial extends React.Component {
     return (
       <div>
         <span className="textData">
-          <h4>Sidereal Time (Outer Scale): {('0' + this.props.lstHour).slice(-2)}:{('0' + this.props.lstMinute).slice(-2)}</h4>
-          <h4>Local Time (Inner Scale): {('0' + this.props.localHour).slice(-2)}:{('0' + this.props.localMinute).slice(-2)}</h4>
+          <h3>Sidereal Time (Outer Scale): {('0' + this.props.lstHour).slice(-2)}:{('0' + this.props.lstMinute).slice(-2)}</h3>
+          <h3>Local Time (Inner Scale): {('0' + this.props.localHour).slice(-2)}:{('0' + this.props.localMinute).slice(-2)}</h3>
         </span>
         <div className="dials-container" style={this.props.show ? { } : { display: 'none' } }>
           <div>
