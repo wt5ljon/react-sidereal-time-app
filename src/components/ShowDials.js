@@ -4,7 +4,7 @@ export default class ShowDial extends React.Component {
   state = {
     mode: 'Automatic',
     sidereal: '',
-    local: '',
+    local: ''
   };
 
   onInputChange = (e) => {
@@ -36,20 +36,22 @@ export default class ShowDial extends React.Component {
       localTimeRotation = -((localHour * 15.0) + (localMinute * 0.25));
       lstTimeRotation = -((lstHour * 15.0) + (lstMinute * 0.25));
     } else {
-      if (sidereal.length === 4 && local.length === 4) {
-        localTimeRotation = -((local.substr(0,2) * 15.0) + (local.substr(2) * 0.25));
-        lstTimeRotation = -((sidereal.substr(0,2) * 15.0) + (sidereal.substr(2) * 0.25));
-      } else {
-        localTimeRotation = 0;
-        lstTimeRotation = 0;
-      }
+      lstTimeRotation = sidereal.length === 4 ? 
+        -((sidereal.substr(0, 2) * 15.0) + (sidereal.substr(2) * 0.25)) : 0;
+      localTimeRotation = local.length === 4 ?
+        -((local.substr(0, 2) * 15.0) + (local.substr(2) * 0.25)) : 0;
     }
 
     return (
       <div>
         <span className="textData">
-          <h3>Tool Mode: {mode}</h3>
-          <button onClick={this.onModeChange}>Change Tool Mode</button>
+          <span className="toolLabel toolLabel--top">{mode} Mode</span>
+          <button
+            className="toolLabel toolLabel--top" 
+            onClick={this.onModeChange}
+          >
+            Toggle Mode
+          </button>
         </span>
         <div className="dials-container" style={show ? { } : { display: 'none' } }>
           <div>
@@ -59,10 +61,10 @@ export default class ShowDial extends React.Component {
           </div>
         </div>
         <span className="textData">
-          {mode === 'Automatic' && <h3>Sidereal Time (Outer Scale): {('0' + lstHour).slice(-2)}:{('0' + lstMinute).slice(-2)}</h3>}
-          {mode === 'Automatic' && <h3>Local Time (Inner Scale): {('0' + localHour).slice(-2)}:{('0' + localMinute).slice(-2)}</h3>}
-          {mode === 'Manual' && <h3>Sidereal Time: <input onChange={this.onInputChange} value={sidereal} name="siderealTime" placeholder="hhmm" /></h3>}
-          {mode === 'Manual' && <h3>Local Time: <input onChange={this.onInputChange} value={local} name="localTime" placeholder="hhmm" /></h3>}
+          {mode === 'Automatic' && <span className="toolLabel toolLabel--bottom">Sidereal Time (Outer Scale): {('0' + lstHour).slice(-2)}:{('0' + lstMinute).slice(-2)}</span>}
+          {mode === 'Automatic' && <span className="toolLabel toolLabel--bottom">Local Time (Inner Scale): {('0' + localHour).slice(-2)}:{('0' + localMinute).slice(-2)}</span>}
+          {mode === 'Manual' && <span className="toolLabel toolLabel--bottom">Sidereal Time: <input onChange={this.onInputChange} value={sidereal} name="siderealTime" size="6" placeholder="hhmm" /></span>}
+          {mode === 'Manual' && <span className="toolLabel toolLabel--bottom">Local Time: <input onChange={this.onInputChange} value={local} name="localTime" size="6" placeholder="hhmm" /></span>}
         </span>
       </div>
     );

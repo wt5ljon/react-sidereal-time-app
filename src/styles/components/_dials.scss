@@ -31,9 +31,21 @@
 .textData {
   display: flex;
   justify-content: space-between;
-  h3 {
-    margin: 0;
-    margin-top: $m-size;
-    padding: 0 $m-size;
-  }
+}
+
+.toolLabel {
+  background: #ccc;
+  border-radius: 5px;
+  font-weight: 700;
+  margin: $xs-size;
+  padding: $xs-size;
+  vertical-align: center;
+}
+
+.toolLabel--top {
+  margin-bottom: 0;
+}
+
+.toolLabel--bottom {
+  margin-top: 0;
 }
