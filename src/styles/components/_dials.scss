@@ -39,7 +39,6 @@
   font-weight: 700;
   margin: $xs-size;
   padding: $xs-size;
-  vertical-align: center;
 }
 
 .toolLabel--top {
@@ -48,4 +47,10 @@
 
 .toolLabel--bottom {
   margin-top: 0;
+}
+
+.toolLabel--button {
+  background: $oxblood;
+  border: none;
+  color: darken(white, 10%);
 }

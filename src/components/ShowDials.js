@@ -47,7 +47,7 @@ export default class ShowDial extends React.Component {
         <span className="textData">
           <span className="toolLabel toolLabel--top">{mode} Mode</span>
           <button
-            className="toolLabel toolLabel--top" 
+            className="toolLabel toolLabel--top toolLabel--button" 
             onClick={this.onModeChange}
           >
             Toggle Mode
