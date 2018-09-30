@@ -11,6 +11,7 @@
 .row__data {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: $s-size;
     h3 {
         color: darken($blackboard, 15%);
